@@ -1,0 +1,2386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Nexus — Build. Secure. Scale.</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* === CSS RESET & VARIABLES === */
+        :root {
+            --blue-gradient: linear-gradient(135deg, #0094FF, #0056E0);
+            --orange-gradient: linear-gradient(135deg, #FF8A00, #FF4D00);
+            --blue-glow: 0 0 20px rgba(0, 148, 255, 0.7);
+            --orange-glow: 0 0 20px rgba(255, 138, 0, 0.7);
+            --black-bg: #000000;
+            --dark-bg: #0a0a0f;
+            --white: #FFFFFF;
+            --card-shadow: 0 10px 30px rgba(0, 84, 224, 0.2);
+            --transition: all 0.3s ease;
+            
+            /* New Course Colors */
+            --light-blue: #18A0FB;
+            --dark-blue: #0054D1;
+            --light-orange: #FF9E2C;
+            --dark-orange: #FF4D00;
+            --course-blue-gradient: linear-gradient(180deg, #18A0FB 0%, #0054D1 100%);
+            --course-orange-gradient: linear-gradient(180deg, #FF9E2C 0%, #FF4D00 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--black-bg);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-title p {
+            font-size: 1.2rem;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--blue-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 84, 224, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 84, 224, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--black-bg);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+        }
+
+        /* === MATRIX BACKGROUND === */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.25; /* Increased visibility */
+            pointer-events: none;
+        }
+
+        /* === NAVIGATION === */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0; /* Reduced padding */
+            z-index: 1000;
+            transition: var(--transition);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar.scrolled {
+            padding: 10px 0; /* Adjusted for scrolled state */
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 35px;
+            transition: var(--transition);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 30px;
+        }
+
+        .nav-link {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #0094FF;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--blue-gradient);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        /* === HERO SECTION === */
+        #hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            transition: var(--transition);
+            text-shadow: 0 0 10px rgba(0, 148, 255, 0.5);
+            cursor: pointer;
+            color: white; /* Ensure white color */
+            animation: titleGlow 3s ease-in-out infinite; /* Continuous animation */
+        }
+
+        @keyframes titleGlow {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(0, 148, 255, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(0, 148, 255, 0.8), 0 0 30px rgba(0, 148, 255, 0.6);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem; /* Increased font size */
+            margin-bottom: 40px;
+            color: #aaa;
+        }
+
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* === ABOUT US SECTION === */
+        #about-us {
+            background-color: rgba(10, 10, 20, 0.7);
+        }
+
+        .about-cards-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .about-card {
+            background: rgba(20, 20, 30, 0.8);
+            border-radius: 10px;
+            padding: 30px;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 148, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--card-shadow);
+            border-color: rgba(0, 148, 255, 0.5);
+        }
+
+        .about-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 148, 255, 0.1), transparent);
+            transition: all 0.7s;
+        }
+
+        .about-card:hover::before {
+            left: 100%;
+        }
+
+        .about-card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .about-card-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .about-card-text {
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+
+        .card-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            color: #ccc;
+        }
+
+        .card-details.show {
+            max-height: 500px;
+        }
+
+        /* === SPECIALTIES SECTION === */
+        #specialties {
+            background-color: rgba(10, 10, 20, 0.7);
+        }
+
+        .specialties-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .specialty-card {
+            background: rgba(20, 20, 30, 0.8);
+            border-radius: 10px;
+            padding: 30px;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 148, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .specialty-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--card-shadow);
+            border-color: rgba(0, 148, 255, 0.5);
+        }
+
+        .specialty-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 148, 255, 0.1), transparent);
+            transition: all 0.7s;
+        }
+
+        .specialty-card:hover::before {
+            left: 100%;
+        }
+
+        .specialty-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .specialty-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .specialty-list {
+            list-style: none;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .specialty-list li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .specialty-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #0094FF;
+        }
+
+        .specialty-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .specialty-btns .btn {
+            flex: 1;
+            text-align: center;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+        }
+
+        /* === PROJECTS SECTION === */
+        #projects {
+            background-color: rgba(15, 15, 25, 0.7);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: rgba(20, 20, 30, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 138, 0, 0.2);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 138, 0, 0.2);
+            border-color: rgba(255, 138, 0, 0.5);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .project-card:hover .project-img img {
+            transform: scale(1.05);
+        }
+
+        .project-content {
+            padding: 20px;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .project-desc {
+            color: #aaa;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* === COURSES SECTION === */
+        #courses {
+            background-color: rgba(10, 10, 20, 0.7);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .courses-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .courses-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: var(--course-blue-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .courses-subtitle {
+            font-size: 1.2rem;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .courses-subtitle span {
+            background: var(--course-orange-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .courses-divider {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .divider-bar {
+            width: 60px;
+            height: 4px;
+            margin: 0 10px;
+            border-radius: 2px;
+        }
+
+        .divider-bar:nth-child(odd) {
+            background: var(--course-blue-gradient);
+        }
+
+        .divider-bar:nth-child(even) {
+            background: var(--course-orange-gradient);
+        }
+
+        .courses-categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .category-tab {
+            padding: 10px 25px;
+            border-radius: 30px;
+            background: var(--course-blue-gradient);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .category-tab.active {
+            background: var(--course-orange-gradient);
+        }
+
+        .category-tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 157, 44, 0.4);
+        }
+
+        .category-counter {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--course-orange-gradient);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .course-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--light-blue);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            border-color: transparent;
+            box-shadow: 0 10px 30px rgba(24, 160, 251, 0.3);
+        }
+
+        .course-card:hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 10px;
+            padding: 2px;
+            background: var(--course-orange-gradient);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .course-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .featured-badge {
+            background: var(--course-orange-gradient);
+            color: white;
+        }
+
+        .new-badge {
+            background: var(--course-blue-gradient);
+            color: white;
+        }
+
+        .bestseller-ribbon {
+            position: absolute;
+            top: 15px;
+            left: -30px;
+            background: var(--course-orange-gradient);
+            color: white;
+            padding: 5px 30px;
+            transform: rotate(-45deg);
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .course-img {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .course-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .course-card:hover .course-img img {
+            transform: scale(1.05);
+        }
+
+        .course-content {
+            padding: 20px;
+        }
+
+        .course-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--course-blue-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .course-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .course-card:hover .course-title {
+            background: var(--course-orange-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .course-category {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--course-blue-gradient);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+
+        .course-difficulty {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .difficulty-bar {
+            width: 20px;
+            height: 4px;
+            margin-right: 5px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .difficulty-bar.active {
+            background: var(--course-orange-gradient);
+        }
+
+        .course-features {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .course-feature {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .feature-icon {
+            margin-right: 5px;
+            font-size: 1rem;
+        }
+
+        .duration-icon {
+            color: var(--light-blue);
+        }
+
+        .lessons-icon {
+            color: var(--light-orange);
+        }
+
+        .course-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .rating-stars {
+            display: flex;
+            margin-right: 10px;
+        }
+
+        .rating-star {
+            color: var(--light-orange);
+            margin-right: 2px;
+        }
+
+        .rating-value {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .course-price {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .price-current {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: var(--course-orange-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .price-original {
+            font-size: 1rem;
+            color: #aaa;
+            text-decoration: line-through;
+        }
+
+        .course-enroll {
+            width: 100%;
+            padding: 12px;
+            background: var(--light-blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .course-enroll:hover {
+            background: var(--course-orange-gradient);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 157, 44, 0.4);
+        }
+
+        /* === DEVELOPER SECTION === */
+        #developer {
+            background-color: rgba(15, 15, 25, 0.7);
+        }
+
+        .developer-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .developer-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: var(--course-blue-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .developer-subtitle {
+            font-size: 1.2rem;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .developer-subtitle span {
+            background: var(--course-orange-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .developer-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin-bottom: 80px;
+        }
+
+        .developer-photo {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .developer-photo img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            background: var(--course-blue-gradient) padding-box, var(--course-blue-gradient) border-box;
+            box-shadow: 0 10px 30px rgba(0, 84, 224, 0.3);
+            transition: var(--transition);
+        }
+
+        .developer-photo:hover img {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 84, 224, 0.5);
+        }
+
+        .developer-content {
+            flex: 2;
+        }
+
+        .developer-name {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            background: var(--course-orange-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            word-wrap: break-word;
+            line-height: 1.2;
+        }
+
+        .developer-tagline {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #aaa;
+            word-wrap: break-word;
+        }
+
+        .developer-divider {
+            height: 2px;
+            background: var(--course-orange-gradient);
+            margin: 30px auto;
+            width: 100px;
+        }
+
+        .developer-bio {
+            color: #ccc;
+            margin-bottom: 50px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .skills-section {
+            margin-bottom: 50px;
+        }
+
+        .skills-title {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            text-align: center;
+            background: var(--course-blue-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .skill-logo {
+            background: rgba(20, 20, 30, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+
+        .skill-logo:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .skill-logo img {
+            width: 60px;
+            height: 60px;
+            filter: grayscale(100%);
+            transition: var(--transition);
+        }
+
+        .skill-logo:hover img {
+            filter: grayscale(0%);
+        }
+
+        .skill-name {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #aaa;
+            text-align: center;
+        }
+
+        .contact-section {
+            text-align: center;
+        }
+
+        .contact-title {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            background: var(--course-blue-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .developer-contact {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .developer-contact-link {
+            width: 50px;
+            height: 50px;
+            background: rgba(30, 30, 40, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .developer-contact-link:hover {
+            background: var(--course-orange-gradient);
+            transform: translateY(-5px);
+        }
+
+        /* === CONTACT SECTION === */
+        #contact {
+            background-color: rgba(15, 15, 25, 0.7);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .contact-form {
+            background: rgba(20, 20, 30, 0.8);
+            border-radius: 10px;
+            padding: 40px;
+            border: 1px solid rgba(0, 148, 255, 0.2);
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h3 {
+            font-size: 1.5rem;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(30, 30, 40, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #0094FF;
+            box-shadow: 0 0 10px rgba(0, 148, 255, 0.3);
+        }
+
+        /* Custom Select Styling */
+        .select-wrapper {
+            position: relative;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .thank-you-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 148, 255, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid rgba(0, 148, 255, 0.3);
+        }
+
+        .thank-you-message.show {
+            display: block;
+        }
+
+        .contact-info {
+            padding: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--blue-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .contact-text h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .contact-text p {
+            color: #aaa;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: rgba(30, 30, 40, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-link:hover {
+            background: var(--blue-gradient);
+            transform: translateY(-5px);
+        }
+
+        /* === FLOATING BUTTONS === */
+        .floating-btns {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .whatsapp-btn {
+            width: 60px;
+            height: 60px;
+            background: var(--orange-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(255, 138, 0, 0.4);
+            transition: var(--transition);
+            animation: pulse 2s infinite;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(255, 138, 0, 0.6);
+        }
+
+        .back-to-top {
+            width: 50px;
+            height: 50px;
+            background: var(--blue-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 84, 224, 0.4);
+        }
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 5px 15px rgba(255, 138, 0, 0.4);
+            }
+            50% {
+                box-shadow: 0 5px 25px rgba(255, 138, 0, 0.8);
+            }
+            100% {
+                box-shadow: 0 5px 15px rgba(255, 138, 0, 0.4);
+            }
+        }
+
+        /* === FOOTER === */
+        footer {
+            background: rgba(5, 5, 10, 0.95);
+            padding: 70px 0 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .footer-brand {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .footer-about {
+            color: #aaa;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .footer-links h4 {
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: #0094FF;
+        }
+
+        .newsletter-form {
+            display: flex;
+            margin-top: 15px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 10px 15px;
+            background: rgba(30, 30, 40, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px 0 0 4px;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .newsletter-btn {
+            padding: 10px 20px;
+            background: var(--blue-gradient);
+            border: none;
+            border-radius: 0 4px 4px 0;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .newsletter-btn:hover {
+            background: var(--orange-gradient);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* === RESPONSIVE STYLES === */
+        @media (max-width: 1199.98px) {
+            .specialties-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .courses-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .skills-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 991.98px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            .developer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                flex-direction: column;
+                background-color: rgba(0, 0, 0, 0.95);
+                width: 80%;
+                height: calc(100vh - 70px);
+                transition: 0.3s;
+                padding: 50px 0;
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-item {
+                margin: 15px 0;
+                text-align: center;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.5rem;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .specialties-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .specialty-btns {
+                flex-direction: column;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-btns {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .courses-categories {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .category-tab {
+                width: 200px;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .slide-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease-in-out;
+        }
+
+        .slide-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-in-out;
+        }
+
+        .slide-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease-in-out;
+        }
+
+        .slide-left.visible, .slide-up.visible, .slide-right.visible {
+            opacity: 1;
+            transform: translate(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Matrix Background Animation -->
+    <canvas id="matrix" class="matrix-bg"></canvas>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="#hero">
+                    <img src="https://i.postimg.cc/3J1QqwvZ/xz.png" alt="Code Nexus Logo">
+                </a>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="#hero" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about-us" class="nav-link">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#specialties" class="nav-link">Our Specialties</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#projects" class="nav-link">Actual Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#courses" class="nav-link">Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#developer" class="nav-link">Developer</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Code Nexus</h1>
+                <p class="hero-subtitle">Build. Secure. Scale.</p>
+                <div class="hero-btns">
+                    <a href="#specialties" class="btn btn-primary">Our Specialties</a>
+                    <a href="#contact" class="btn btn-secondary">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about-us">
+        <div class="container">
+            <div class="section-title">
+                <h2>About Us</h2>
+                <p>Learn more about our mission, values, and approach</p>
+            </div>
+            
+            <div class="about-cards-container">
+                <div class="about-card slide-left">
+                    <div class="about-card-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 class="about-card-title">Our Mission</h3>
+                    <p class="about-card-text">To create innovative, secure technology solutions that empower businesses and protect digital assets.</p>
+                    <div class="card-details">
+                        <p>We strive to bridge the gap between cutting-edge technology and practical business applications, ensuring our clients stay ahead in the digital landscape.</p>
+                        <p>Our mission extends beyond just delivering code - we aim to build lasting partnerships and provide ongoing support for all our solutions.</p>
+                    </div>
+                    <button class="btn btn-primary read-more-btn" style="padding: 8px 15px; font-size: 0.8rem;">Read More</button>
+                </div>
+                
+                <div class="about-card slide-up">
+                    <div class="about-card-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3 class="about-card-title">Our Skills</h3>
+                    <p class="about-card-text">Web development, cybersecurity, Python, JavaScript, penetration testing, and secure architecture design.</p>
+                    <div class="card-details">
+                        <p>Our team possesses expertise across the full technology stack, from frontend development with modern frameworks to backend systems and infrastructure.</p>
+                        <p>We continuously update our skills to incorporate the latest technologies and security practices, ensuring we deliver future-proof solutions.</p>
+                    </div>
+                    <button class="btn btn-primary read-more-btn" style="padding: 8px 15px; font-size: 0.8rem;">Read More</button>
+                </div>
+                
+                <div class="about-card slide-right">
+                    <div class="about-card-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="about-card-title">Our Values</h3>
+                    <p class="about-card-text">Integrity, innovation, security-first approach, and commitment to client success.</p>
+                    <div class="card-details">
+                        <p>We believe in transparent communication, ethical practices, and putting our clients' needs first in every project we undertake.</p>
+                        <p>Our security-first mindset ensures that every solution we deliver is robust, resilient, and protected against emerging threats.</p>
+                    </div>
+                    <button class="btn btn-primary read-more-btn" style="padding: 8px 15px; font-size: 0.8rem;">Read More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specialties Section -->
+    <section id="specialties">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Specialties</h2>
+                <p>We provide cutting-edge solutions across multiple technology domains</p>
+            </div>
+            
+            <div class="specialties-grid">
+                <div class="specialty-card">
+                    <div class="specialty-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="specialty-title">Web Development</h3>
+                    <ul class="specialty-list">
+                        <li>Front-End Development</li>
+                        <li>Back-End Development</li>
+                        <li>Full-Stack Solutions</li>
+                        <li>UI/UX Design</li>
+                        <li>DevOps Integration</li>
+                        <li>Quality Testing</li>
+                    </ul>
+                    <div class="specialty-btns">
+                        <a href="web-development.html" class="btn btn-primary">View Details</a>
+                        <a href="#contact" class="btn btn-secondary">Request Service</a>
+                    </div>
+                </div>
+                
+                <div class="specialty-card">
+                    <div class="specialty-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="specialty-title">Application Development</h3>
+                    <ul class="specialty-list">
+                        <li>iOS & Android Apps</li>
+                        <li>Cross-Platform Solutions</li>
+                        <li>UI/UX Design</li>
+                        <li>App Store Optimization</li>
+                        <li>Performance Optimization</li>
+                        <li>Maintenance & Support</li>
+                    </ul>
+                    <div class="specialty-btns">
+                        <a href="application-development.html" class="btn btn-primary">View Details</a>
+                        <a href="#contact" class="btn btn-secondary">Request Service</a>
+                    </div>
+                </div>
+                
+                <div class="specialty-card">
+                    <div class="specialty-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3 class="specialty-title">Desktop Application</h3>
+                    <ul class="specialty-list">
+                        <li>Windows Applications</li>
+                        <li>macOS Applications</li>
+                        <li>Linux Applications</li>
+                        <li>Cross-Platform Desktop Apps</li>
+                        <li>System Integration</li>
+                        <li>Custom Solutions</li>
+                    </ul>
+                    <div class="specialty-btns">
+                        <a href="desktop-apps.html" class="btn btn-primary">View Details</a>
+                        <a href="#contact" class="btn btn-secondary">Request Service</a>
+                    </div>
+                </div>
+                
+                <div class="specialty-card">
+                    <div class="specialty-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="specialty-title">CyberSecurity & IT</h3>
+                    <ul class="specialty-list">
+                        <li>Network Security</li>
+                        <li>Vulnerability Assessment</li>
+                        <li>Penetration Testing</li>
+                        <li>IT Infrastructure</li>
+                        <li>Security Audits</li>
+                        <li>Incident Response</li>
+                    </ul>
+                    <div class="specialty-btns">
+                        <a href="cybersecurity-it.html" class="btn btn-primary">View Details</a>
+                        <a href="#contact" class="btn btn-secondary">Request Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <div class="section-title">
+                <h2>Actual Projects</h2>
+                <p>Explore our latest work and successful implementations</p>
+            </div>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="https://i.postimg.cc/rwGXFMyB/1212.jpg" alt="E-Commerce Platform Project">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">E-Commerce Platform</h3>
+                        <p class="project-desc">A full-featured online store with payment integration, inventory management, and customer analytics.</p>
+                        <a href="https://example.com/project1" target="_blank" class="btn btn-primary">Visit Project</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="images/Fit.png" alt="Fitness Tracking App Project">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Fitness Tracking App</h3>
+                        <p class="project-desc">A cross-platform mobile application for tracking workouts, nutrition, and health metrics.</p>
+                        <a href="https://example.com/project2" target="_blank" class="btn btn-primary">Visit Project</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="images/Cyber.png" alt="Security Audit Tool Project">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Security Audit Tool</h3>
+                        <p class="project-desc">A comprehensive cybersecurity assessment platform for identifying vulnerabilities in web applications.</p>
+                        <a href="https://example.com/project3" target="_blank" class="btn btn-primary">Visit Project</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="images/Bus.jpg" alt="Business Management System Project">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Business Management System</h3>
+                        <p class="project-desc">An integrated solution for managing business operations, from CRM to inventory and accounting.</p>
+                        <a href="https://example.com/project4" target="_blank" class="btn btn-primary">Visit Project</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section id="courses">
+        <div class="container">
+            <div class="courses-header">
+                <h2 class="courses-title">Our Courses</h2>
+                <p class="courses-subtitle">Master in-demand skills with our <span>expert-led courses</span> designed for the modern developer</p>
+                
+                <div class="courses-divider">
+                    <div class="divider-bar"></div>
+                    <div class="divider-bar"></div>
+                    <div class="divider-bar"></div>
+                    <div class="divider-bar"></div>
+                    <div class="divider-bar"></div>
+                </div>
+            </div>
+            
+            <div class="courses-categories">
+                <button class="category-tab active" data-category="all">
+                    All Courses
+                    <span class="category-counter">8</span>
+                </button>
+                <button class="category-tab" data-category="web">
+                    Web Development
+                    <span class="category-counter">3</span>
+                </button>
+                <button class="category-tab" data-category="mobile">
+                    Mobile Development
+                    <span class="category-counter">2</span>
+                </button>
+                <button class="category-tab" data-category="security">
+                    Cyber Security
+                    <span class="category-counter">2</span>
+                </button>
+                <button class="category-tab" data-category="tools">
+                    Tools & DevOps
+                    <span class="category-counter">1</span>
+                </button>
+            </div>
+            
+            <div class="courses-grid">
+                <!-- Course 1 -->
+                <div class="course-card" data-category="web">
+                    <div class="bestseller-ribbon">Bestseller</div>
+                    <div class="course-img">
+                        <img src="https://i.postimg.cc/rwGXFMyB/1212.jpg" alt="Full Stack Web Development">
+                    </div>
+                    <div class="course-content">
+                        <div class="course-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="course-title">Full Stack Web Development</h3>
+                        <span class="course-category">Web Development</span>
+                        
+                        <div class="course-difficulty">
+                            <div class="difficulty-bar active"></div>
+                            <div class="difficulty-bar active"></div>
+                            <div class="difficulty-bar"></div>
+                            <div class="difficulty-bar"></div>
+                            <div class="difficulty-bar"></div>
+                        </div>
+                        
+                        <div class="course-features">
+                            <div class="course-feature">
+                                <i class="fas fa-clock duration-icon feature-icon"></i>
+                                <span>12 Weeks</span>
+                            </div>
+                            <div class="course-feature">
+                                <i class="fas fa-book-open lessons-icon feature-icon"></i>
+                                <span>48 Lessons</span>
+                            </div>
+                        </div>
+                        
+                        <div class="course-rating">
+                            <div class="rating-stars">
+                                <i class="fas fa-star rating-star"></i>
+                                <i class="fas fa-star rating-star"></i>
+                                <i class="fas fa-star rating-star"></i>
+                                <i class="fas fa-star rating-star"></i>
+                                <i class="fas fa-star-half-alt rating-star"></i>
+                            </div>
+                            <span class="rating-value">4.7 (1,243)</span>
+                        </div>
+                        
+                        <div class="course-price">
+                            <span class="price-current">$89.99</span>
+                            <span class="price-original">$149.99</span>
+                        </div>
+                        
+                        <button class="course-enroll">Enroll Now</button>
+                    </div>
+                </div>
+                
+                <!-- Course 2 -->
+                <div class="course-card" data-category="mobile">
+                    <div class="course-badge new-badge">New</div>
+                    <div class="course-img">
+                        <img src="https://i.postimg.cc/rwGXFMyB/1212.jpg" alt="React Native Mobile Development">
+                    </div>
+                    <div class="course-content">
+                        <div class="course-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="course-title">React Native Mobile Development</h3>
+                        <span class="course-category">Mobile Development</span>
+                        
+                        <div class="course-difficulty">
+                            <div class="difficulty-bar active"></div>
+                            <div class="difficulty-bar active"></div>
+                            <div class="difficulty-bar active"></div>
+                            <div class="difficulty-bar"></div>
+                            <div class="difficulty-bar"></div>
+                        </div>
+                        
+                        <div class="course-features">
+                            <div class="course-feature">
+                                <i class="fas fa-clock duration-icon feature-icon"></i>
+                                <span>10 Weeks</span>
+                            </div>
+                            <div class="course-feature">
+                                <i class="fas fa-book-open lessons-icon feature-icon"></i>
+                                <span>36 Lessons</span>
+                            </div>
+                        </div>
+                        
+                        <div class="course-rating">
+                            <div class="rating-stars">
+                                <i class="fas fa-star rating-star"></i>
+                                <i class="fas fa-star rating-star"></i>
+                                <i class="fas fa-star rating-star"></i>
+                                <i class="fas fa-star rating-star"></i>
+                                <i class="fas fa-star rating-star"></i>
+                            </div>
+                            <span class="rating-value">4.9 (892)</span>
+                        </div>
+                        
+                        <div class="course-price">
+                            <span class="price-current">$79.99</span>
+                            <span class="price-original">$129.99</span>
+                        </div>
+                        
+                        <button class="course-enroll">Enroll Now</button>
+                    </div>
+                </div>
+                
+                <!-- Course 3 -->
+                <div class="course-card" data-category="security">
+                    <div class="course-badge featured-badge">Featured</div>
+                    <div class="course-img">
+                        <img src="https://i.postimg.cc/rwGXFMyB/1212.jpg" alt="Ethical Hacking & Penetration Testing">
+                    </div>
+                    <div class="course-content">
+                        <div class="course-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="course-title">Ethical Hacking & Penetration Testing</h3>
+                        <span class="course-category">Cyber Security</span>
+                        
+                        <div class="course-difficulty">
+                            <div class="difficulty-bar active"></div>
+                            <div class="difficulty-bar active"></div>
+                            <div class="difficulty-bar active"></div>
+                            <div class="difficulty-bar active"></div>
+                            <div class="difficulty-bar"></div>
+                        </div>
+                        
+                        <div class="course-features">
+                            <div class="course-feature">
+                                <i class="fas fa-clock duration-icon feature-icon"></i>
+                                <span>16 Weeks</span>
+                            </div>
+                            <div class="course-feature">
+                                <i class="fas fa-book-open lessons-icon feature-icon"></i>
+                                <span>64 Lessons</span>
+                            </div>
+                        </div>
+                        
+                        <div class="course-rating">
+                            <div class="rating-stars">
+                                <i class="fas fa-star rating-star"></i>
+                                <i class="fas fa-star rating-star"></i>
+                                <i class="fas fa-star rating-star"></i>
+                                <i class="fas fa-star rating-star"></i>
+                                <i class="fas fa-star rating-star"></i>
+                            </div>
+                            <span class="rating-value">5.0 (756)</span>
+                        </div>
+                        
+                        <div class="course-price">
+                            <span class="price-current">$119.99</span>
+                            <span class="price-original">$199.99</span>
+                        </div>
+                        
+                        <button class="course-enroll">Enroll Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Developer Section -->
+    <section id="developer">
+        <div class="container">
+            <div class="developer-header">
+                <h2 class="developer-title">The Developer</h2>
+                <p class="developer-subtitle">Meet the mind behind <span>Code Nexus</span></p>
+            </div>
+            
+            <div class="developer-container">
+                <div class="developer-photo">
+                    <img src="https://i.postimg.cc/k4sWnVL9/132.jpg" alt="Eng. Ibrahim Salah">
+                </div>
+                <div class="developer-content">
+                    <h2 class="developer-name">Eng. IBRAHIM SALAH (19)</h2>
+                    <p class="developer-tagline">Founder of Code Nexus | Web Development & CyberSecurity Expert</p>
+                    <div class="developer-divider"></div>
+                    <p class="developer-bio">
+                        As the founder of Code Nexus, I bring together a passion for innovative technology solutions 
+                        and a commitment to security. With expertise spanning web development, application design, 
+                        and cybersecurity, I lead a team dedicated to building robust, scalable, and secure digital 
+                        solutions for our clients. My journey in technology started at a young age, and I've since 
+                        mastered languages like Python, JavaScript, and various security frameworks including Metasploit. 
+                        Code Nexus represents my dream of creating a technology hub that bridges development excellence 
+                        with security consciousness.
+                    </p>
+                    
+                    <div class="skills-section">
+                        <h3 class="skills-title">Technical Skills</h3>
+                        <div class="skills-grid">
+                            <div class="skill-logo">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+                                <span class="skill-name">Python</span>
+                            </div>
+                            <div class="skill-logo">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript">
+                                <span class="skill-name">JavaScript</span>
+                            </div>
+                            <div class="skill-logo">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3">
+                                <span class="skill-name">CSS3</span>
+                            </div>
+                            <div class="skill-logo">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5">
+                                <span class="skill-name">HTML5</span>
+                            </div>
+                            <div class="skill-logo">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap">
+                                <span class="skill-name">Bootstrap</span>
+                            </div>
+                            <div class="skill-logo">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React">
+                                <span class="skill-name">React JS</span>
+                            </div>
+                            <div class="skill-logo">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="Linux">
+                                <span class="skill-name">Linux</span>
+                            </div>
+                            <div class="skill-logo">
+                                <img src="https://www.offsec.com/assets/img/blog/metasploit-logo.png" alt="Metasploit">
+                                <span class="skill-name">Metasploit</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-section">
+                        <h3 class="contact-title">Contact the Developer</h3>
+                        <div class="developer-contact">
+                            <a href="https://www.instagram.com/ibrahim_ssalah" class="developer-contact-link" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://www.facebook.com/share/19iGzA7GWX/" class="developer-contact-link" aria-label="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://wa.me/201112472715" class="developer-contact-link" aria-label="WhatsApp">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            <a href="https://t.me/01112472715" class="developer-contact-link" aria-label="Telegram">
+                                <i class="fab fa-telegram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact Us</h2>
+                <p>Get in touch to discuss your project requirements</p>
+            </div>
+            
+            <div class="contact-container">
+                <div class="contact-form">
+                    <div class="form-header">
+                        <h3>Send us a message</h3>
+                    </div>
+                    
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group select-wrapper">
+                            <select class="form-control" id="service" required>
+                                <option value="" disabled selected>Select a Service</option>
+                                <option value="web-dev">Web Development</option>
+                                <option value="app-dev">Application Development</option>
+                                <option value="desktop-app">Desktop Application</option>
+                                <option value="cybersecurity">CyberSecurity & IT</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" id="message" rows="5" placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                        
+                        <div class="thank-you-message" id="thankYouMessage">
+                            <p>Thank you for contacting us! We will reach out soon. If urgent, contact via WhatsApp button on the right.</p>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Email</h4>
+                            <p>code.nexus.hack@gmail.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Phone</h4>
+                            <p>+20 111 247 2715</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Location</h4>
+                            <p>Mansoura, Dakahlia, Egypt</p>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <img src="https://i.postimg.cc/sXvpKfvN/Picsart-25-11-16-03-03-27-354.png" alt="Code Nexus Logo">
+                        <span class="footer-brand">Code Nexus</span>
+                    </div>
+                    <p class="footer-about">
+                        We are a technology company specializing in web development, application development, 
+                        and cybersecurity solutions. Our mission is to build secure, scalable, and innovative 
+                        digital products that empower businesses and protect their digital assets.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#hero">Home</a></li>
+                        <li><a href="#about-us">About Us</a></li>
+                        <li><a href="#specialties">Our Specialties</a></li>
+                        <li><a href="#projects">Actual Projects</a></li>
+                        <li><a href="#courses">Courses</a></li>
+                        <li><a href="#developer">Developer</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="web-development.html">Web Development</a></li>
+                        <li><a href="application-development.html">Application Development</a></li>
+                        <li><a href="desktop-apps.html">Desktop Application</a></li>
+                        <li><a href="cybersecurity-it.html">CyberSecurity & IT</a></li>
+                        <li><a href="#">Consulting</a></li>
+                        <li><a href="#">Training</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-newsletter">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe to our newsletter for the latest updates and security alerts.</p>
+                    <form class="newsletter-form">
+                        <input type="email" class="newsletter-input" placeholder="Your email address">
+                        <button type="submit" class="newsletter-btn">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Code Nexus. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Buttons -->
+    <div class="floating-btns">
+        <div class="back-to-top" id="backToTop">
+            <i class="fas fa-arrow-up"></i>
+        </div>
+        <a href="https://wa.me/201112472715" class="whatsapp-btn" aria-label="Contact us on WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <script>
+        // Matrix Background Animation
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const chars = '01{}[]();<>/*-+@#$%&ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+
+        const rainDrops = [];
+
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+
+        const draw = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0094FF';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        };
+
+        setInterval(draw, 30);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            // Back to Top Button
+            const backToTop = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                backToTop.classList.add('active');
+            } else {
+                backToTop.classList.remove('active');
+            }
+            
+            // Scroll Animations
+            const elements = document.querySelectorAll('.slide-left, .slide-up, .slide-right');
+            elements.forEach(el => {
+                const position = el.getBoundingClientRect();
+                if (position.top < window.innerHeight - 100) {
+                    el.classList.add('visible');
+                }
+            });
+        });
+
+        // Mobile Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.setAttribute('aria-expanded', navMenu.classList.contains('active'));
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+        }));
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Back to Top
+        document.getElementById('backToTop').addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Contact Form Submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const thankYouMessage = document.getElementById('thankYouMessage');
+            thankYouMessage.classList.add('show');
+            setTimeout(() => {
+                thankYouMessage.classList.remove('show');
+            }, 5000);
+            this.reset();
+        });
+
+        // Newsletter Form Submission
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const input = this.querySelector('.newsletter-input');
+            if (input.value) {
+                alert('Thank you for subscribing to our newsletter!');
+                input.value = '';
+            }
+        });
+
+        // Course Category Filtering
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                document.querySelectorAll('.category-tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Filter courses
+                const category = this.getAttribute('data-category');
+                const courseCards = document.querySelectorAll('.course-card');
+                
+                courseCards.forEach(card => {
+                    if (category === 'all' || card.getAttribute('data-category') === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Read More functionality for About cards
+        document.querySelectorAll('.read-more-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const cardDetails = this.previousElementSibling;
+                cardDetails.classList.toggle('show');
+                this.textContent = cardDetails.classList.contains('show') ? 'Read Less' : 'Read More';
+            });
+        });
+
+        // Course Enroll button functionality
+        document.querySelectorAll('.course-enroll').forEach(button => {
+            button.addEventListener('click', function() {
+                const courseTitle = this.closest('.course-card').querySelector('.course-title').textContent;
+                alert(`Thank you for your interest in "${courseTitle}"! You will be redirected to the enrollment page.`);
+            });
+        });
+
+        // Initialize scroll animations
+        window.dispatchEvent(new Event('scroll'));
+    </script>
+</body>
+</html>

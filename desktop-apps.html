@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desktop Applications - Code Nexus</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --blue-gradient: linear-gradient(135deg, #0094FF, #0056E0);
+            --orange-gradient: linear-gradient(135deg, #FF8A00, #FF4D00);
+            --black-bg: #000000;
+            --dark-bg: #0a0a0f;
+            --white: #FFFFFF;
+            --card-shadow: 0 10px 30px rgba(0, 84, 224, 0.2);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--black-bg);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 35px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 30px;
+        }
+
+        .nav-link {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: #0094FF;
+        }
+
+        /* Hero Section */
+        .service-hero {
+            padding: 150px 0 100px;
+            background: linear-gradient(135deg, rgba(0, 148, 255, 0.1) 0%, rgba(0, 0, 0, 0.9) 100%);
+            text-align: center;
+        }
+
+        .service-icon {
+            font-size: 4rem;
+            margin-bottom: 30px;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .service-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .service-subtitle {
+            font-size: 1.5rem;
+            color: #aaa;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Platforms Section */
+        .platforms-section {
+            padding: 100px 0;
+            background: var(--dark-bg);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .platform-card {
+            background: rgba(20, 20, 30, 0.8);
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 148, 255, 0.2);
+        }
+
+        .platform-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 148, 255, 0.5);
+            box-shadow: var(--card-shadow);
+        }
+
+        .platform-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .platform-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .platform-desc {
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        /* Solutions Section */
+        .solutions-section {
+            padding: 100px 0;
+            background: var(--black-bg);
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .solution-card {
+            background: rgba(20, 20, 30, 0.8);
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 138, 0, 0.2);
+        }
+
+        .solution-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 138, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(255, 138, 0, 0.2);
+        }
+
+        .solution-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: var(--orange-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .solution-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .solution-desc {
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, rgba(255, 138, 0, 0.1) 0%, rgba(0, 0, 0, 0.9) 100%);
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: var(--orange-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--blue-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 84, 224, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 84, 224, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--black-bg);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(5, 5, 10, 0.95);
+            padding: 50px 0 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .footer-brand {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #777;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .service-title {
+                font-size: 2.5rem;
+            }
+            
+            .platforms-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .solutions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="code.nexus.html">
+                    <img src="https://i.postimg.cc/3J1QqwvZ/xz.png" alt="Code Nexus Logo">
+                </a>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="code.nexus.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="code.nexus.html#about-us" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="code.nexus.html#specialties" class="nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="code.nexus.html#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="service-hero">
+        <div class="container">
+            <div class="service-icon">
+                <i class="fas fa-desktop"></i>
+            </div>
+            <h1 class="service-title">Desktop Applications</h1>
+            <p class="service-subtitle">Powerful, efficient desktop software solutions tailored to your business needs and workflow requirements</p>
+        </div>
+    </section>
+
+    <!-- Platforms Section -->
+    <section class="platforms-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Cross-Platform Desktop Solutions</h2>
+                <p>Native applications for every operating system</p>
+            </div>
+            
+            <div class="platforms-grid">
+                <div class="platform-card">
+                    <div class="platform-icon">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                    <h3 class="platform-title">Windows Applications</h3>
+                    <p class="platform-desc">Native Windows applications built with .NET, WPF, and WinForms for optimal performance and integration with the Windows ecosystem.</p>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <h3 class="platform-title">macOS Applications</h3>
+                    <p class="platform-desc">Elegant macOS applications developed with Swift and Cocoa, following Apple's design guidelines and performance standards.</p>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">
+                        <i class="fab fa-linux"></i>
+                    </div>
+                    <h3 class="platform-title">Linux Applications</h3>
+                    <p class="platform-desc">Robust Linux applications using GTK, Qt, and other native frameworks, optimized for various Linux distributions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section class="solutions-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Desktop Solutions</h2>
+                <p>Comprehensive desktop applications for various business needs</p>
+            </div>
+            
+            <div class="solutions-grid">
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="solution-title">Business Management</h3>
+                    <p class="solution-desc">Custom ERP, CRM, and inventory management systems tailored to your specific business processes and requirements.</p>
+                </div>
+                
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3 class="solution-title">Productivity Tools</h3>
+                    <p class="solution-desc">Specialized productivity applications, automation tools, and workflow optimization software to enhance efficiency.</p>
+                </div>
+                
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="solution-title">Data Processing</h3>
+                    <p class="solution-desc">High-performance data analysis, processing, and visualization applications for handling large datasets efficiently.</p>
+                </div>
+                
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3 class="solution-title">Creative Software</h3>
+                    <p class="solution-desc">Custom graphic design, video editing, and multimedia applications with specialized features for creative professionals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">Need a Custom Desktop Solution?</h2>
+            <p>Let's build powerful desktop software that transforms your business operations</p>
+            
+            <div class="cta-buttons">
+                <a href="code.nexus.html#contact" class="btn btn-primary">Start Your Project</a>
+                <a href="code.nexus.html#specialties" class="btn btn-secondary">View All Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <img src="https://i.postimg.cc/sXvpKfvN/Picsart-25-11-16-03-03-27-354.png" alt="Code Nexus Logo">
+                        <span class="footer-brand">Code Nexus</span>
+                    </div>
+                    <p>Building secure, scalable, and innovative digital solutions that empower businesses and protect digital assets.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="web-development.html">Web Development</a></li>
+                        <li><a href="application-development.html">App Development</a></li>
+                        <li><a href="desktop-apps.html">Desktop Apps</a></li>
+                        <li><a href="cybersecurity-it.html">Cybersecurity</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="code.nexus.html#about-us">About Us</a></li>
+                        <li><a href="code.nexus.html#projects">Projects</a></li>
+                        <li><a href="code.nexus.html#courses">Courses</a></li>
+                        <li><a href="code.nexus.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Code Nexus. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
